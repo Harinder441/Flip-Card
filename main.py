@@ -4,13 +4,19 @@ FONT_NAME = "Arial"
 from tkinter import *
 import pandas as pd
 import time
+
+
 data = pd.read_csv("./data/french_words.csv")
+
+#----------------------------------UI Functions-----------------------------------------------------
 random_word = data.sample()
 def french():
+    """ get french word from random sample""""
     canvas.itemconfig(bg_image,image = card_front_image)
     canvas.itemconfig(language,text ="French", fill ="black")
     canvas.itemconfig(word, text =f"{random_word.French.item()}", fill ="black")
 def english():
+     """ get english word word from random sample""""
     canvas.itemconfig(bg_image,image = card_back_image)
     canvas.itemconfig(language,text ="English", fill ="white")
     canvas.itemconfig(word, text =f"{random_word.English.item()}", fill ="white")
@@ -19,6 +25,7 @@ def english():
 
 
 def start():
+    """Show english word at begning , french translation after some delay """
     global random_word
     random_word = data.sample()
     french()
@@ -26,6 +33,7 @@ def start():
 
 
 def right():
+    """ this function remove the known french words from sample """
     data.drop(random_word.index,axis=0,inplace=True)
     data_csv = data.to_csv(index=False)
     with open("./data/french_words.csv","w") as file:
@@ -36,6 +44,7 @@ def right():
 def wrong():
     start()
 
+#-----------------------------------------UI---------------------------------------------------
 win = Tk()
 win.title("Flash Card")
 win.config(pady= 50,bg=BACKGROUND_COLOR,padx=10)
